@@ -4,7 +4,7 @@ version: '3.8'
 services:
   
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -13,23 +13,30 @@ services:
       - '9090:9090'
     volumes:
       - C:/software/lab/prometheus-2.51.2.windows-amd64/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
 
-  app:
+  main:
     build: .
+    container_name: main
     ports:
       - "8000:8000"
     restart: always
+    networks:
+      - monitoring
+
 
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana
     ports:
-      - "3000:3000"
+      - "3001:3000"
     networks:
       - monitoring
 
 
   node-exporter:
-    image: prom/node-exporter
+    image: prom/node-exporter:latest
     ports:
       - "9100:9100"  # Simplified port binding
     volumes:
@@ -37,7 +44,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
     labels:
       prometheus-job: nodeexporter
-      
-      
-      
-      
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge

@@ -123,7 +123,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 # Training the model
-num_epochs = 2
+num_epochs = 1000
 for epoch in range(num_epochs):
     # Forward pass
     outputs = model(X_train_tensor)
@@ -183,15 +183,20 @@ precision_metric = prometheus_client.Gauge('model_precision', 'Model precision o
 # loss_metric = prometheus_client.Gauge('model_loss', 'Training loss during the last epoch')
 
 # Update Prometheus metrics
-accuracy_metric.set(accuracy_test)
-precision_metric.set(predicted_test)
+# accuracy_metric.set(float(accuracy_test))
+# precision_metric.set(float(predicted_test))
 # recall_metric.set(recall_test)
 # f1_metric.set(f1_test)
 
 # Create Evidently Report
-report = Report(
-    metrics=[DataDriftPreset(), TargetDriftPreset(), ClassificationPreset()]
-)
-
+print("Generating report...")
+report = Report(metrics=[DataDriftPreset(), TargetDriftPreset(), ClassificationPreset()])
 report.run(reference_data=train_data, current_data=test_data, column_mapping=column_mapping)
 report.save_html('model_monitoring_report.html')
+print("Report generated and saved.")
+print('Prometheus metrics are available at http://localhost:8000')
+
+# Create Evidently Dashboard
+# dashboard = Dashboard(tabs=[DataDriftTab(), TargetDriftTab(), ModelPerformanceTab()])
+# dashboard.calculate(reference_data=train_data, current_data=test_data, column_mapping=column_mapping)
+# dashboard.save_html('model_monitoring_dashboard.html')
