@@ -10,7 +10,7 @@ import prometheus_client
 from statHook import StatHook
 
 # Start Prometheus HTTP server
-prometheus_client.start_http_server(8001)
+prometheus_client.start_http_server(8000)
 
 # Define Prometheus gauges for monitoring
 mean_gauge = prometheus_client.Gauge('layer_output_mean', 'Mean of the layer outputs')

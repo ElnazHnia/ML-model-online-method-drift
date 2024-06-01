@@ -153,9 +153,9 @@ with torch.no_grad():
     _, predicted_test = torch.max(y_test_pred, 1)
     # print(y_test_pred.shape)
     accuracy_test = (predicted_test == y_test_tensor).sum().item() / len(y_test_tensor)
-    # print(f'Accuracy: {accuracy_test:.4f}')
+    print(f'Accuracy: {accuracy_test:.4f}')
     accuracy_train = (predicted_train == y_train_tensor).sum().item() / len(y_train_tensor)
-    # print(f'Accuracy: {accuracy_train:.4f}')
+    print(f'Accuracy: {accuracy_train:.4f}')
 
 
 # Combine training and testing data for monitoring
@@ -183,8 +183,8 @@ precision_metric = prometheus_client.Gauge('model_precision', 'Model precision o
 # loss_metric = prometheus_client.Gauge('model_loss', 'Training loss during the last epoch')
 
 # Update Prometheus metrics
-# accuracy_metric.set(float(accuracy_test))
-# precision_metric.set(float(predicted_test))
+accuracy_metric.set(float(accuracy_train))
+precision_metric.set(float(accuracy_test))
 # recall_metric.set(recall_test)
 # f1_metric.set(f1_test)
 
