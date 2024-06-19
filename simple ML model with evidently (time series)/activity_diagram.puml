@@ -1,0 +1,22 @@
+@startuml
+start
+:Start Prometheus Server;
+:Load Data;
+:Prepare Tensors;
+
+repeat
+  :Train Model;
+  :Evaluate Metrics;
+repeat while (epochs < num_epochs);
+
+repeat
+  :Split Data into Train and Test;
+  :Train Model on Train Data;
+  :Log Metrics;
+repeat while (cycles < num_cycles);
+
+:Evaluate Model on Test Data;
+:Generate Training Report;
+:Generate Testing Report;
+stop
+@enduml

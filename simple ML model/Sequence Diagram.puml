@@ -1,0 +1,26 @@
+@startuml
+
+actor User
+
+participant "prometheus_client" as prometheus
+participant "TitanicDataProcessor" as processor
+participant "TitanicMLP" as model
+participant "Trainer" as trainer
+participant "Evidently Report" as report
+
+User -> prometheus: start_http_server(8000)
+User -> processor: load_data(url)
+User -> processor: fill_missing_values(df)
+User -> processor: convert_categorical_to_numeric(df)
+User -> processor: normalize_features(X)
+User -> processor: to_tensors(X, y)
+User -> processor: split_data(X, y)
+
+User -> model: __init__()
+User -> trainer: train_model(model, X_train, y_train, num_epochs)
+User -> trainer: test_model(model, X_test, y_test)
+
+User -> report: run(reference_data, current_data, column_mapping)
+User -> report: save_html('model_monitoring_report.html')
+
+@enduml

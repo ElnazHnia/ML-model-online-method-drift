@@ -24,7 +24,6 @@ services:
     restart: always
     networks:
       - monitoring
-    command: python -u main.py
 
 
   grafana:

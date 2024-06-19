@@ -1,0 +1,28 @@
+@startuml
+actor User
+participant "main()" as Main
+participant "start_prometheus_server()" as Prometheus
+participant "run_model()" as RunModel
+participant "generate_reports()" as GenerateReports
+participant "TitanicMLP" as TitanicMLP
+participant "StatHook" as StatHook
+participant "DataDriftPreset" as DataDriftPreset
+
+User -> Main : start()
+Main -> Prometheus : start_prometheus_server()
+Prometheus -> prometheus_client : start_http_server(8000)
+Main -> RunModel : run_model()
+RunModel -> Main : load_data()
+RunModel -> Main : prepare_tensors()
+
+loop num_cycles
+  RunModel -> TitanicMLP : train()
+  RunModel -> StatHook : evaluate_metrics()
+end
+
+RunModel -> Main : evaluate_model()
+Main -> GenerateReports : generate_reports(training_data)
+Main -> GenerateReports : generate_reports(test_data)
+GenerateReports -> DataDriftPreset : run(reference_data, current_data)
+GenerateReports -> Report : save_html(name_html)
+@enduml

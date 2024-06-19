@@ -1,0 +1,25 @@
+@startuml
+
+|#antiquewhite| Script |
+start
+
+:Start Prometheus HTTP server;
+:Load Titanic dataset;
+:Select and preprocess features;
+:Convert to tensors;
+:Split data into training and testing sets;
+
+if (Model training required?) then (yes)
+    :Define and instantiate model;
+    :Train model;
+    :Test model;
+    :Calculate metrics;
+else (no)
+    stop
+endif
+
+:Generate Evidently report;
+:Save report as HTML;
+stop
+
+@enduml
