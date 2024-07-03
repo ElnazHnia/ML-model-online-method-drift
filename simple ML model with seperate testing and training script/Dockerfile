@@ -19,7 +19,7 @@ EXPOSE 8000
 # Run main.py when the container launches
 #CMD ["python", "deployed_model.py"]
 CMD ["sh", "-c", "python deployed_model.py && tail -f /dev/null"]
-
+#CMD ["sh", "-c", "python test.py && tail -f /dev/null"]
 
 
 
