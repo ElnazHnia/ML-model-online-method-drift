@@ -18,8 +18,8 @@ else (no)
     stop
 endif
 
-:Generate Evidently report;
-:Save report as HTML;
+':Generate Evidently report;
+':Save report as HTML;
 stop
 
 @enduml

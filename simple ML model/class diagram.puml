@@ -25,14 +25,14 @@ class Trainer {
     -optimizer: optim.SGD
 }
 
-class ReportGenerator {
-    +__init__(self, train_data: pd.DataFrame, test_data: pd.DataFrame, column_mapping: ColumnMapping)
-    +generate_report(): None
-    +save_report(file_name: str): None
-}
+'class ReportGenerator {
+'    +__init__(self, train_data: pd.DataFrame, test_data: pd.DataFrame, column_mapping: ColumnMapping)
+'    +generate_report(): None
+'    +save_report(file_name: str): None
+'}
 
 TitanicDataProcessor "1" --> "1" Trainer : prepares data
 Trainer "1" --> "1" TitanicMLP : trains and tests
-Trainer "1" --> "1" ReportGenerator : generates report
+'Trainer "1" --> "1" ReportGenerator : generates report
 
 @enduml

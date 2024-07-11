@@ -132,7 +132,7 @@ class DriftDetection:
 
         self.survival_predictions_gauge.labels(survived='1').set(survived_count)
         self.survival_predictions_gauge.labels(survived='0').set(not_survived_count)
-        # Assume you have drift detection logic here
+        # my formula
         drift_detected = survived_count / (survived_count + not_survived_count) > 0.5
         self.drift_concept_detected_gauge.set(1 if drift_detected else 0)
         logger.info(f"Concept drift detected: {drift_detected}")

@@ -6,7 +6,7 @@ participant "prometheus_client" as prometheus
 participant "TitanicDataProcessor" as processor
 participant "TitanicMLP" as model
 participant "Trainer" as trainer
-participant "Evidently Report" as report
+'participant "Evidently Report" as report
 
 User -> prometheus: start_http_server(8000)
 User -> processor: load_data(url)
@@ -20,7 +20,7 @@ User -> model: __init__()
 User -> trainer: train_model(model, X_train, y_train, num_epochs)
 User -> trainer: test_model(model, X_test, y_test)
 
-User -> report: run(reference_data, current_data, column_mapping)
-User -> report: save_html('model_monitoring_report.html')
+'User -> report: run(reference_data, current_data, column_mapping)
+'User -> report: save_html('model_monitoring_report.html')
 
 @enduml
