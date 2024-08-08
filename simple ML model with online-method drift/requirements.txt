@@ -1,0 +1,6 @@
+pandas
+torchsummary
+torch
+evidently>=0.3.0
+prometheus_client
+numpy
