@@ -1,0 +1,22 @@
+# Python Dependencies for the Titanic Model Deployment and Monitoring System
+
+# Data processing and manipulation library
+pandas
+
+# Library to summarize and print model architectures
+torchsummary
+
+# Library for loading and transforming images, and model architectures (e.g., ResNet, AlexNet)
+torchvision
+
+# Core PyTorch library for building and training machine learning models
+torch
+
+# Evidently AI library for monitoring machine learning models and detecting data drift
+evidently>=0.3.0
+
+# Prometheus client for exposing application metrics to the Prometheus server
+prometheus_client
+
+# Library for numerical operations and array manipulation
+numpy

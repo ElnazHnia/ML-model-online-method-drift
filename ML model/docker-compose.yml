@@ -1,0 +1,51 @@
+version: '3.8'
+
+# Define the services that will be used in the monitoring setup
+services:
+
+  # Prometheus service for monitoring and metrics collection
+  prometheus:
+    build:
+      context: .
+      dockerfile: Dockerfile.prometheus  # Custom Dockerfile for Prometheus configuration
+    ports:
+      - '9092:9090'  # Expose Prometheus on port 9092 (mapped to container's 9090)
+    volumes:
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"  # Mount Prometheus configuration file
+      - "./prometheus/rules/prometheus_rules.yaml:/etc/prometheus/rules/prometheus_rules.yaml"  # Mount custom alert rules
+    networks:
+      - monitoring  # Connect Prometheus to the monitoring network
+
+  # Application service to be monitored
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "8001:8001"  # Expose the application on port 8001
+    restart: always  # Ensure the app restarts automatically if it crashes
+    volumes:
+      - /home/elnaz/datasets/visionline:/home/elnaz/datasets/visionline  # Mount the dataset for use in the application
+    networks:
+      - monitoring  # Connect the application to the monitoring network
+
+  # Grafana service for visualizing the collected metrics
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000"  # Expose Grafana on port 3001 (mapped to container's 3000)
+    networks:
+      - monitoring  # Connect Grafana to the monitoring network
+
+  # Node Exporter for collecting hardware and OS-level metrics
+  node-exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9101:9100"  # Expose Node Exporter on port 9101 (mapped to container's 9100)
+    networks:
+      - monitoring  # Connect Node Exporter to the monitoring network
+
+# Define the custom monitoring network
+networks:
+  monitoring:
+    driver: bridge  # Use bridge driver to create an isolated network for the monitoring services

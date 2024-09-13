@@ -1,0 +1,43 @@
+# Prometheus global configuration
+global:
+  scrape_interval: 15s   # How frequently to scrape targets by default
+  evaluation_interval: 15s  # How often to evaluate rules
+  external_labels:
+    monitor: 'codelab-monitor'  # External label to identify the monitoring instance
+
+# Alertmanager configuration to send alerts to Alertmanager
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - '192.168.209.234:9093'  # Address of the Alertmanager (adjust if necessary)
+
+# Rule files location for alerting and recording rules
+rule_files:
+  - '/etc/prometheus/rules/prometheus_rules.yaml'  # Path to custom Prometheus rule files
+
+# Scrape configuration for collecting metrics from various services
+scrape_configs:
+
+  # Job configuration for monitoring the application
+  - job_name: 'app'
+    honor_timestamps: true  # Respect the timestamps of the scraped metrics
+    scrape_interval: 10s    # Custom scrape interval for the app (set to 10s)
+    metrics_path: /metrics  # Path to the metrics endpoint
+    static_configs:
+      - targets: ['192.168.209.234:8001']  # IP address and port of the app
+
+  # Job configuration for monitoring Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['192.168.209.234:9090']  # IP address and port where Prometheus is running
+
+  # Job configuration for monitoring Node Exporter (system metrics)
+  - job_name: 'nodeexporter'
+    static_configs:
+      - targets: ['192.168.209.234:9100']  # IP address and port of Node Exporter
+
+  # Job configuration for monitoring Docker engine metrics
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['192.168.209.234:9323']  # IP address and port of Docker daemon metrics

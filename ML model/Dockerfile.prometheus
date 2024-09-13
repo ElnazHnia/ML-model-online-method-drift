@@ -1,0 +1,28 @@
+# Use an official Ubuntu base image with bash and package manager support
+FROM ubuntu:latest
+
+# Install Prometheus and required dependencies (curl, wget)
+RUN apt-get update && apt-get install -y wget curl \
+    # Download Prometheus binary from official releases
+    && wget https://github.com/prometheus/prometheus/releases/download/v2.53.2/prometheus-2.53.2.linux-amd64.tar.gz \
+    # Extract the downloaded Prometheus archive
+    && tar -xvf prometheus-2.53.2.linux-amd64.tar.gz \
+    # Move Prometheus binaries (prometheus and promtool) to /bin for global access
+    && mv prometheus-2.53.2.linux-amd64/prometheus /bin/prometheus \
+    && mv prometheus-2.53.2.linux-amd64/promtool /bin/promtool \
+    # Create necessary directories for Prometheus configuration and console files
+    && mkdir -p /etc/prometheus \
+    # Move console and console library files to Prometheus directory
+    && mv prometheus-2.53.2.linux-amd64/consoles /etc/prometheus/consoles \
+    && mv prometheus-2.53.2.linux-amd64/console_libraries /etc/prometheus/console_libraries \
+    # Clean up by removing extracted files and the downloaded archive
+    && rm -rf prometheus-2.53.2.linux-amd64 prometheus-2.53.2.linux-amd64.tar.gz
+
+# Copy the custom Prometheus configuration file from the local machine to the container
+COPY ./prometheus/prometheus.yml /etc/prometheus/prometheus.yml
+
+# Expose the default Prometheus port for external access
+EXPOSE 9090
+
+# Command to start Prometheus with a configuration file and lifecycle API enabled for reloading configurations
+CMD ["/bin/prometheus", "--config.file=/etc/prometheus/prometheus.yml", "--web.enable-lifecycle"]

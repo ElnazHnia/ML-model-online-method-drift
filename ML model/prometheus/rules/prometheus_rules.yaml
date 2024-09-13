@@ -1,0 +1,20 @@
+groups:
+  - name: dependency_alerts
+    rules:
+      - alert: DependencyChangeDetected
+        expr: some_metric == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Dependency Change Detected"
+          description: "The external data source is not available."
+          
+      - alert: HighErrorRate
+        expr: job_errors_total > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High Error Rate Detected"
+          description: "Error rate has exceeded the threshold"
