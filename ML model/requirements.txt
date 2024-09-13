@@ -12,9 +12,6 @@ torchvision
 # Core PyTorch library for building and training machine learning models
 torch
 
-# Evidently AI library for monitoring machine learning models and detecting data drift
-evidently>=0.3.0
-
 # Prometheus client for exposing application metrics to the Prometheus server
 prometheus_client
 
