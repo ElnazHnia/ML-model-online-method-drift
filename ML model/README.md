@@ -72,6 +72,7 @@ To set up the project locally, follow these steps:
 ├── ops/                  # Docker and deployment files
 ├── utils/                # Utility functions
 └── README.md             # This file
+````
 
 ## 5. Configuration
 
