@@ -68,9 +68,8 @@ To set up the project locally, the following steps should be followed:
 ├── evaluation/           # Evaluation scripts
 ├── executor/             # Scripts to run the main model
 ├── model/                # Model definition and training
-├── notebooks/            # Jupyter notebooks for experiments
 ├── ops/                  # Docker and deployment files
-├── utils/                # Utility functions
+├── utils/                # Dashboard file
 └── README.md             # This file
 ```
 
