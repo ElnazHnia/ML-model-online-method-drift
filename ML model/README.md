@@ -72,3 +72,42 @@ To set up the project locally, follow these steps:
 ├── ops/                  # Docker and deployment files
 ├── utils/                # Utility functions
 └── README.md             # This file
+
+## 5. Configuration
+
+- **Prometheus**: The configuration for Prometheus alerts can be found in `configs/prometheus_rules.yaml`.
+- **Docker**: The Docker setup is configured in the `docker-compose.yml` file located in the `ops/` folder.
+- **Environment variables**: Ensure that you have properly set environment variables. You can use a `.env` file in the project directory. If an example file is provided, you can copy it:
+    ```bash
+    cp .env.example .env
+    ```
+
+## 6. Running the Project
+
+To run the project locally, follow these steps:
+
+1. **Train the model**:
+    Run the following command to start the training process:
+    ```bash
+    python train_model.py
+    ```
+
+2. **Start Prometheus server**:
+    Make sure Prometheus is configured and installed. Start the Prometheus server by running:
+    ```bash
+    prometheus --config.file=path/to/prometheus.yml
+    ```
+
+3. **Run the deployed model**:
+    After the model is trained, you can run the deployed model with Prometheus monitoring enabled:
+    ```bash
+    python deployed_model.py
+    ```
+
+## 7. Monitoring and Drift Detection
+
+1. **Start Prometheus monitoring**:
+   The deployed model script (`deployed_model.py`) will automatically begin sending metrics to Prometheus, which will monitor model performance and detect drift.
+
+2. **Drift detection**:
+   Drift detection algorithms such as **Page-Hinkley Test (PHT)**, **Incremental Kolmogorov-Smirnov (IKS)**, and **NM-DDM** are implemented to detect data drift in real-time. The drift status is visualized using **Prometheus** and can be monitored via **Grafana**.
