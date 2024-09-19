@@ -1,0 +1,28 @@
+# Prometheus alert configuration for monitoring service dependencies and error rates
+
+groups:
+  # Grouping alerts under a common name 'dependency_alerts'
+  - name: dependency_alerts
+    
+    # Define a set of rules for alerting
+    rules:
+      
+      # Alert for detecting when a critical dependency is unavailable
+      - alert: DependencyChangeDetected
+        expr: some_metric == 0  # Expression to evaluate: triggers when 'some_metric' equals 0
+        for: 5m  # Alert is triggered only if the condition holds for 5 minutes
+        labels:
+          severity: critical  # Label to categorize the severity of the alert as 'critical'
+        annotations:
+          summary: "Dependency Change Detected"  # Short description of the alert
+          description: "The external data source is not available."  # Detailed explanation of the issue
+
+      # Alert for detecting when there is a high error rate in the system
+      - alert: HighErrorRate
+        expr: job_errors_total > 0  # Expression to evaluate: triggers when 'job_errors_total' is greater than 0
+        for: 1m  # Alert is triggered only if the condition holds for 1 minute
+        labels:
+          severity: critical  # Label to categorize the severity of the alert as 'critical'
+        annotations:
+          summary: "High Error Rate Detected"  # Short description of the alert
+          description: "Error rate has exceeded the threshold"  # Detailed explanation of the issue
